@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -22,6 +21,57 @@ interface PredictionResult {
   color: string;
 }
 
+const predictionData: Record<string, Record<string, PredictionResult[]>> = {
+  'United States': {
+    'California': [
+      { disasterType: 'Earthquake', probability: 78, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Wildfire', probability: 85, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Flood', probability: 42, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Hurricane', probability: 15, riskLevel: 'Low', color: 'disaster-teal' },
+    ],
+    'Florida': [
+      { disasterType: 'Hurricane', probability: 89, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Flood', probability: 75, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Earthquake', probability: 8, riskLevel: 'Low', color: 'disaster-teal' },
+      { disasterType: 'Wildfire', probability: 22, riskLevel: 'Low', color: 'disaster-teal' },
+    ],
+    'Texas': [
+      { disasterType: 'Hurricane', probability: 62, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Flood', probability: 58, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Tornado', probability: 70, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Drought', probability: 45, riskLevel: 'Medium', color: 'disaster-orange' },
+    ]
+  },
+  'Japan': {
+    'Tokyo': [
+      { disasterType: 'Earthquake', probability: 92, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Tsunami', probability: 80, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Typhoon', probability: 65, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Volcanic Eruption', probability: 35, riskLevel: 'Medium', color: 'disaster-orange' },
+    ],
+    'Osaka': [
+      { disasterType: 'Earthquake', probability: 85, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Tsunami', probability: 72, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Typhoon', probability: 58, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Flood', probability: 42, riskLevel: 'Medium', color: 'disaster-orange' },
+    ]
+  },
+  'India': {
+    'Kerala': [
+      { disasterType: 'Flood', probability: 82, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Landslide', probability: 65, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Cyclone', probability: 55, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Earthquake', probability: 18, riskLevel: 'Low', color: 'disaster-teal' },
+    ],
+    'Gujarat': [
+      { disasterType: 'Earthquake', probability: 75, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Cyclone', probability: 68, riskLevel: 'Medium', color: 'disaster-orange' },
+      { disasterType: 'Drought', probability: 72, riskLevel: 'High', color: 'disaster-red' },
+      { disasterType: 'Flood', probability: 38, riskLevel: 'Medium', color: 'disaster-orange' },
+    ]
+  }
+};
+
 const PredictionModel = () => {
   const [country, setCountry] = useState('');
   const [state, setState] = useState('');
@@ -30,57 +80,6 @@ const PredictionModel = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<PredictionResult[]>([]);
   const { toast } = useToast();
-
-  const predictionData: Record<string, Record<string, PredictionResult[]>> = {
-    'United States': {
-      'California': [
-        { disasterType: 'Earthquake', probability: 78, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Wildfire', probability: 85, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Flood', probability: 42, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Hurricane', probability: 15, riskLevel: 'Low', color: 'disaster-teal' },
-      ],
-      'Florida': [
-        { disasterType: 'Hurricane', probability: 89, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Flood', probability: 75, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Earthquake', probability: 8, riskLevel: 'Low', color: 'disaster-teal' },
-        { disasterType: 'Wildfire', probability: 22, riskLevel: 'Low', color: 'disaster-teal' },
-      ],
-      'Texas': [
-        { disasterType: 'Hurricane', probability: 62, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Flood', probability: 58, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Tornado', probability: 70, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Drought', probability: 45, riskLevel: 'Medium', color: 'disaster-orange' },
-      ]
-    },
-    'Japan': {
-      'Tokyo': [
-        { disasterType: 'Earthquake', probability: 92, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Tsunami', probability: 80, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Typhoon', probability: 65, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Volcanic Eruption', probability: 35, riskLevel: 'Medium', color: 'disaster-orange' },
-      ],
-      'Osaka': [
-        { disasterType: 'Earthquake', probability: 85, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Tsunami', probability: 72, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Typhoon', probability: 58, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Flood', probability: 42, riskLevel: 'Medium', color: 'disaster-orange' },
-      ]
-    },
-    'India': {
-      'Kerala': [
-        { disasterType: 'Flood', probability: 82, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Landslide', probability: 65, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Cyclone', probability: 55, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Earthquake', probability: 18, riskLevel: 'Low', color: 'disaster-teal' },
-      ],
-      'Gujarat': [
-        { disasterType: 'Earthquake', probability: 75, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Cyclone', probability: 68, riskLevel: 'Medium', color: 'disaster-orange' },
-        { disasterType: 'Drought', probability: 72, riskLevel: 'High', color: 'disaster-red' },
-        { disasterType: 'Flood', probability: 38, riskLevel: 'Medium', color: 'disaster-orange' },
-      ]
-    }
-  };
 
   const handlePredict = () => {
     setIsLoading(true);
@@ -269,7 +268,6 @@ const PredictionModel = () => {
                   <Progress 
                     value={result.probability} 
                     className={`h-2 bg-muted`}
-                    indicatorClassName={`bg-disaster-${result.color}`}
                   />
                   
                   <p className="text-xs text-muted-foreground">

@@ -1,12 +1,11 @@
-
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import WorldMap from '@/components/WorldMap';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertTriangle, BarChart2, CloudRain, Flame, LineChart, Mountain, PieChart, Wind } from 'lucide-react';
-import { Chart } from '@/components/ui/chart';
 
 const chartData = {
   earthquakes: [
@@ -191,15 +190,38 @@ const AlertsPage = () => {
                           </CardHeader>
                           <CardContent>
                             <div className="h-[250px] w-full">
-                              <Chart 
-                                type="pie" 
-                                data={chartData.earthquakes[0].data}
-                                colors={['#60A5FA', '#93C5FD', '#BFDBFE', '#DBEAFE', '#EFF6FF']}
-                                index="name"
-                                categories={['value']}
-                                valueFormatter={(value) => `${value}%`}
-                                className="h-full w-full"
-                              />
+                              <div className="flex items-center justify-center h-full">
+                                <div className="pie-chart bg-blue-100 rounded-full w-48 h-48 relative overflow-hidden">
+                                  <div className="absolute inset-0 bg-blue-500 pie-segment" style={{ clipPath: 'polygon(50% 50%, 100% 0, 100% 100%, 0 100%, 0 50%)' }}></div>
+                                  <div className="absolute inset-0 bg-blue-400 pie-segment" style={{ clipPath: 'polygon(50% 50%, 0 0, 100% 0, 100% 50%)' }}></div>
+                                  <div className="absolute inset-0 bg-blue-300 pie-segment" style={{ clipPath: 'polygon(50% 50%, 0 50%, 0 0, 50% 0)' }}></div>
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="bg-white rounded-full w-24 h-24"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-3 gap-2 mt-4">
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-blue-500 rounded-sm mr-1"></span>
+                                  <span>Asia-Pacific 48%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-blue-400 rounded-sm mr-1"></span>
+                                  <span>Americas 27%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-blue-300 rounded-sm mr-1"></span>
+                                  <span>Europe 14%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-blue-200 rounded-sm mr-1"></span>
+                                  <span>Africa 8%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-blue-100 rounded-sm mr-1"></span>
+                                  <span>Middle East 3%</span>
+                                </div>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
@@ -212,17 +234,40 @@ const AlertsPage = () => {
                           </CardHeader>
                           <CardContent>
                             <div className="h-[250px] w-full">
-                              <Chart 
-                                type="line" 
-                                data={chartData.earthquakes[1].data}
-                                colors={['#3B82F6']}
-                                index="name"
-                                categories={['value']}
-                                valueFormatter={(value) => `${value}`}
-                                showXGrid={true}
-                                showYGrid={true}
-                                className="h-full w-full"
-                              />
+                              <div className="relative h-full w-full flex flex-col">
+                                <div className="flex-1 relative">
+                                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-1/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-2/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-3/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute inset-0 flex items-end">
+                                    <div className="w-full h-full flex items-end">
+                                      <div className="flex-1 mx-1 h-[18%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[21%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[25%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[22%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[19%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[24%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[27%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[25%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[21%] bg-blue-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[24%] bg-blue-400 rounded-t"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="h-6 flex text-xs text-gray-500">
+                                  <div className="flex-1 text-center">Jan 23</div>
+                                  <div className="flex-1 text-center">Apr 23</div>
+                                  <div className="flex-1 text-center">Jul 23</div>
+                                  <div className="flex-1 text-center">Oct 23</div>
+                                  <div className="flex-1 text-center">Jan 24</div>
+                                  <div className="flex-1 text-center">Apr 24</div>
+                                  <div className="flex-1 text-center">Jul 24</div>
+                                  <div className="flex-1 text-center">Oct 24</div>
+                                  <div className="flex-1 text-center">Jan 25</div>
+                                  <div className="flex-1 text-center">Apr 25</div>
+                                </div>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
@@ -240,15 +285,34 @@ const AlertsPage = () => {
                           </CardHeader>
                           <CardContent>
                             <div className="h-[250px] w-full">
-                              <Chart 
-                                type="pie" 
-                                data={chartData.storms[0].data}
-                                colors={['#2DD4BF', '#5EEAD4', '#99F6E4', '#CCFBF1']}
-                                index="name"
-                                categories={['value']}
-                                valueFormatter={(value) => `${value}%`}
-                                className="h-full w-full"
-                              />
+                              <div className="flex items-center justify-center h-full">
+                                <div className="pie-chart bg-teal-100 rounded-full w-48 h-48 relative overflow-hidden">
+                                  <div className="absolute inset-0 bg-teal-500 pie-segment" style={{ clipPath: 'polygon(50% 50%, 100% 0, 100% 100%, 0 100%, 0 50%)' }}></div>
+                                  <div className="absolute inset-0 bg-teal-400 pie-segment" style={{ clipPath: 'polygon(50% 50%, 0 0, 100% 0, 100% 50%)' }}></div>
+                                  <div className="absolute inset-0 bg-teal-300 pie-segment" style={{ clipPath: 'polygon(50% 50%, 0 50%, 0 0, 50% 0)' }}></div>
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="bg-white rounded-full w-24 h-24"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-2 gap-2 mt-4">
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-teal-500 rounded-sm mr-1"></span>
+                                  <span>Hurricanes 35%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-teal-400 rounded-sm mr-1"></span>
+                                  <span>Typhoons 30%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-teal-300 rounded-sm mr-1"></span>
+                                  <span>Cyclones 25%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-teal-200 rounded-sm mr-1"></span>
+                                  <span>Severe Storms 10%</span>
+                                </div>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
@@ -261,17 +325,40 @@ const AlertsPage = () => {
                           </CardHeader>
                           <CardContent>
                             <div className="h-[250px] w-full">
-                              <Chart 
-                                type="line" 
-                                data={chartData.storms[1].data}
-                                colors={['#14B8A6']}
-                                index="name"
-                                categories={['value']}
-                                valueFormatter={(value) => `${value}`}
-                                showXGrid={true}
-                                showYGrid={true}
-                                className="h-full w-full"
-                              />
+                              <div className="relative h-full w-full flex flex-col">
+                                <div className="flex-1 relative">
+                                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-1/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-2/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-3/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute inset-0 flex items-end">
+                                    <div className="w-full h-full flex items-end">
+                                      <div className="flex-1 mx-1 h-[5%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[8%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[12%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[10%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[6%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[9%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[15%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[11%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[7%] bg-teal-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[10%] bg-teal-400 rounded-t"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="h-6 flex text-xs text-gray-500">
+                                  <div className="flex-1 text-center">Jan 23</div>
+                                  <div className="flex-1 text-center">Apr 23</div>
+                                  <div className="flex-1 text-center">Jul 23</div>
+                                  <div className="flex-1 text-center">Oct 23</div>
+                                  <div className="flex-1 text-center">Jan 24</div>
+                                  <div className="flex-1 text-center">Apr 24</div>
+                                  <div className="flex-1 text-center">Jul 24</div>
+                                  <div className="flex-1 text-center">Oct 24</div>
+                                  <div className="flex-1 text-center">Jan 25</div>
+                                  <div className="flex-1 text-center">Apr 25</div>
+                                </div>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
@@ -289,15 +376,38 @@ const AlertsPage = () => {
                           </CardHeader>
                           <CardContent>
                             <div className="h-[250px] w-full">
-                              <Chart 
-                                type="pie" 
-                                data={chartData.other[0].data}
-                                colors={['#F59E0B', '#FBBF24', '#FCD34D', '#FDE68A', '#FEF3C7']}
-                                index="name"
-                                categories={['value']}
-                                valueFormatter={(value) => `${value}%`}
-                                className="h-full w-full"
-                              />
+                              <div className="flex items-center justify-center h-full">
+                                <div className="pie-chart bg-amber-100 rounded-full w-48 h-48 relative overflow-hidden">
+                                  <div className="absolute inset-0 bg-amber-500 pie-segment" style={{ clipPath: 'polygon(50% 50%, 100% 0, 100% 100%, 30% 100%)' }}></div>
+                                  <div className="absolute inset-0 bg-amber-400 pie-segment" style={{ clipPath: 'polygon(50% 50%, 30% 100%, 0 100%, 0 30%)' }}></div>
+                                  <div className="absolute inset-0 bg-amber-300 pie-segment" style={{ clipPath: 'polygon(50% 50%, 0 30%, 0 0, 30% 0)' }}></div>
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="bg-white rounded-full w-24 h-24"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-3 gap-2 mt-4">
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-amber-500 rounded-sm mr-1"></span>
+                                  <span>Floods 40%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-amber-400 rounded-sm mr-1"></span>
+                                  <span>Wildfires 25%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-amber-300 rounded-sm mr-1"></span>
+                                  <span>Landslides 15%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-amber-200 rounded-sm mr-1"></span>
+                                  <span>Volcanoes 10%</span>
+                                </div>
+                                <div className="flex items-center text-xs">
+                                  <span className="w-3 h-3 bg-amber-100 rounded-sm mr-1"></span>
+                                  <span>Tsunamis 10%</span>
+                                </div>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
@@ -310,17 +420,40 @@ const AlertsPage = () => {
                           </CardHeader>
                           <CardContent>
                             <div className="h-[250px] w-full">
-                              <Chart 
-                                type="line" 
-                                data={chartData.other[1].data}
-                                colors={['#F59E0B']}
-                                index="name"
-                                categories={['value']}
-                                valueFormatter={(value) => `${value}`}
-                                showXGrid={true}
-                                showYGrid={true}
-                                className="h-full w-full"
-                              />
+                              <div className="relative h-full w-full flex flex-col">
+                                <div className="flex-1 relative">
+                                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-1/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-2/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute bottom-3/4 left-0 right-0 h-px bg-gray-200"></div>
+                                  <div className="absolute inset-0 flex items-end">
+                                    <div className="w-full h-full flex items-end">
+                                      <div className="flex-1 mx-1 h-[12%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[15%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[22%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[18%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[14%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[17%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[24%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[20%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[16%] bg-amber-400 rounded-t"></div>
+                                      <div className="flex-1 mx-1 h-[19%] bg-amber-400 rounded-t"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="h-6 flex text-xs text-gray-500">
+                                  <div className="flex-1 text-center">Jan 23</div>
+                                  <div className="flex-1 text-center">Apr 23</div>
+                                  <div className="flex-1 text-center">Jul 23</div>
+                                  <div className="flex-1 text-center">Oct 23</div>
+                                  <div className="flex-1 text-center">Jan 24</div>
+                                  <div className="flex-1 text-center">Apr 24</div>
+                                  <div className="flex-1 text-center">Jul 24</div>
+                                  <div className="flex-1 text-center">Oct 24</div>
+                                  <div className="flex-1 text-center">Jan 25</div>
+                                  <div className="flex-1 text-center">Apr 25</div>
+                                </div>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
