@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertTriangle, CloudRain, Flame, Mountain, Waves, Wind } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 const disasterTypes = [
   {
@@ -125,7 +127,7 @@ const disasterTypes = [
     incidents: [
       { name: 'Hunga Tonga Eruption (2022)', impact: 'Massive tsunami', notes: 'Largest eruption of 21st century' },
       { name: 'La Palma Eruption (2021)', duration: '85 days', notes: 'Destroyed 3,000 buildings' },
-      { name: 'Java, Indonesia (2023)', name: 'Mount Semeru', impact: 'Multiple eruptions' }
+      { name: 'Mount Semeru, Java (2023)', impact: 'Multiple eruptions', notes: 'Ongoing activity' }
     ]
   },
   {
@@ -155,13 +157,23 @@ const disasterTypes = [
   }
 ];
 
+interface DialogInfo {
+  title: string;
+  content: React.ReactNode;
+}
+
 const DisasterKnowledge = () => {
   const [activeTab, setActiveTab] = useState(disasterTypes[0].id);
+  const [dialogInfo, setDialogInfo] = useState<DialogInfo | null>(null);
+
+  const handleLearnMore = (title: string, content: React.ReactNode) => {
+    setDialogInfo({ title, content });
+  };
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">Disaster Knowledge Base</h2>
+        <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">Disaster Knowledge Base</h2>
         <p className="text-muted-foreground">
           Learn about different types of natural disasters, their causes, and precautions.
         </p>
@@ -171,11 +183,11 @@ const DisasterKnowledge = () => {
         {disasterTypes.map((type) => (
           <Card 
             key={type.id}
-            className={`cursor-pointer transition-all hover-lift ${activeTab === type.id ? `border-${type.color}` : ''}`}
+            className={`cursor-pointer transition-all hover-lift pastel-${activeTab === type.id ? 'blue' : ''}-card`}
             onClick={() => setActiveTab(type.id)}
           >
             <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-              <div className={`mb-2 text-${type.color}`}>
+              <div className={`mb-2 ${activeTab === type.id ? 'text-blue-500' : `text-${type.color}`}`}>
                 {type.icon}
               </div>
               <h3 className="text-sm font-medium">{type.name}</h3>
@@ -195,7 +207,7 @@ const DisasterKnowledge = () => {
               <span className="text-sm font-medium">{type.name}</span>
             </div>
             
-            <Card>
+            <Card className={`bg-gradient-to-br from-white to-blue-50 border-blue-100`}>
               <CardHeader>
                 <CardTitle className={`text-${type.color}`}>{type.name}</CardTitle>
                 <CardDescription>
@@ -205,10 +217,10 @@ const DisasterKnowledge = () => {
               
               <CardContent className="space-y-6">
                 <Tabs defaultValue="causes">
-                  <TabsList className="grid grid-cols-3 w-full">
-                    <TabsTrigger value="causes">Causes</TabsTrigger>
-                    <TabsTrigger value="precautions">Precautions</TabsTrigger>
-                    <TabsTrigger value="incidents">Recent Incidents</TabsTrigger>
+                  <TabsList className="grid grid-cols-3 w-full bg-blue-50">
+                    <TabsTrigger value="causes" className="data-[state=active]:bg-white">Causes</TabsTrigger>
+                    <TabsTrigger value="precautions" className="data-[state=active]:bg-white">Precautions</TabsTrigger>
+                    <TabsTrigger value="incidents" className="data-[state=active]:bg-white">Recent Incidents</TabsTrigger>
                   </TabsList>
                   
                   <TabsContent value="causes" className="mt-4 space-y-4">
@@ -236,14 +248,14 @@ const DisasterKnowledge = () => {
                   <TabsContent value="incidents" className="mt-4">
                     <div className="space-y-4">
                       {type.incidents.map((incident, index) => (
-                        <div key={index} className="p-3 border rounded-lg">
+                        <div key={index} className="p-3 border border-blue-100 bg-blue-50/50 rounded-lg">
                           <h4 className="font-medium">{incident.name}</h4>
                           <div className="mt-1 text-sm text-muted-foreground">
                             {Object.entries(incident)
                               .filter(([key]) => key !== 'name')
                               .map(([key, value]) => (
                                 <div key={key}>
-                                  <span className="capitalize">{key}</span>: {value}
+                                  <span className="capitalize">{key}</span>: {value as string}
                                 </div>
                               ))
                             }
@@ -258,6 +270,16 @@ const DisasterKnowledge = () => {
           </div>
         ))}
       </div>
+
+      {/* Interactive Knowledge Dialog */}
+      <Dialog open={dialogInfo !== null} onOpenChange={(open) => !open && setDialogInfo(null)}>
+        <DialogContent className="bg-gradient-to-br from-white to-blue-50 max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{dialogInfo?.title}</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">{dialogInfo?.content}</div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

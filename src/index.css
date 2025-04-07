@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,34 +6,34 @@
   :root {
     --background: 210 40% 98%;
     --foreground: 222 47% 11%;
-
+    
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
-
+    
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-
+    
     --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
-
+    
     --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
-
+    
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-
+    
     --accent: 217 92% 60%;
     --accent-foreground: 210 40% 98%;
-
+    
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-
+    
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 221 83% 53%;
-
+    
     --radius: 0.5rem;
-
+    
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5% 26%;
     --sidebar-primary: 240 6% 10%;
@@ -43,6 +42,18 @@
     --sidebar-accent-foreground: 240 6% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217 92% 60%;
+    
+    /* Pastel Color Palette */
+    --pastel-blue: 210 100% 90%;
+    --pastel-green: 120 60% 90%;
+    --pastel-yellow: 50 100% 90%;
+    --pastel-pink: 340 100% 92%;
+    --pastel-purple: 270 100% 92%;
+    --pastel-orange: 30 100% 90%;
+    --pastel-teal: 180 60% 85%;
+    --pastel-red: 0 100% 92%;
+    --pastel-lavender: 275 50% 90%;
+    --pastel-mint: 160 50% 90%;
   }
 
   .dark {
@@ -89,7 +100,7 @@
   * {
     @apply border-border;
   }
-
+  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -106,19 +117,19 @@
   }
   
   .danger-gradient {
-    @apply bg-gradient-to-r from-disaster-red to-disaster-orange text-white;
+    @apply bg-gradient-to-r from-rose-400 to-amber-300 text-white;
   }
   
   .warning-gradient {
-    @apply bg-gradient-to-r from-disaster-orange to-disaster-yellow text-white;
+    @apply bg-gradient-to-r from-amber-300 to-yellow-200 text-gray-800;
   }
   
   .safe-gradient {
-    @apply bg-gradient-to-r from-disaster-teal to-disaster-blue text-white;
+    @apply bg-gradient-to-r from-teal-300 to-sky-300 text-gray-800;
   }
   
   .info-gradient {
-    @apply bg-gradient-to-r from-disaster-blue to-disaster-purple text-white;
+    @apply bg-gradient-to-r from-sky-300 to-indigo-300 text-gray-800;
   }
 
   .map-container {
@@ -135,5 +146,37 @@
   
   .hover-lift {
     @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+  
+  .pastel-card {
+    @apply bg-gradient-to-br from-white to-blue-50 border-blue-100 shadow-md hover:shadow-lg transition-all;
+  }
+  
+  .pastel-blue-card {
+    @apply bg-gradient-to-br from-white to-blue-50 border-blue-100;
+  }
+  
+  .pastel-green-card {
+    @apply bg-gradient-to-br from-white to-green-50 border-green-100;
+  }
+  
+  .pastel-yellow-card {
+    @apply bg-gradient-to-br from-white to-yellow-50 border-yellow-100;
+  }
+  
+  .pastel-pink-card {
+    @apply bg-gradient-to-br from-white to-pink-50 border-pink-100;
+  }
+  
+  .pastel-purple-card {
+    @apply bg-gradient-to-br from-white to-purple-50 border-purple-100;
+  }
+  
+  .pastel-bg {
+    @apply bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50;
+  }
+  
+  .pastel-button {
+    @apply bg-gradient-to-r from-blue-200 to-indigo-200 hover:from-blue-300 hover:to-indigo-300 text-gray-800 transition-all;
   }
 }
