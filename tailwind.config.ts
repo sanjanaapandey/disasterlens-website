@@ -73,6 +73,13 @@ export default {
 					pink: '#BE185D',
 					dark: '#1E293B',
 					light: '#F1F5F9'
+				},
+				cream: {
+					100: '#FEF9EF',
+					200: '#FDF4E3',
+					300: '#FCF0D8',
+					400: '#FAEBCE',
+					500: '#F9E7C3'
 				}
 			},
 			borderRadius: {

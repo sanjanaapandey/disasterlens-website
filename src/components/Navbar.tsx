@@ -1,9 +1,8 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, AlertTriangle, Shield } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,76 +24,50 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled ? 'backdrop-blur-md bg-white/70 shadow-md' : 'bg-transparent'
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      scrolled || location.pathname !== '/' ? 'bg-blue-900/90 backdrop-blur-md shadow-md' : 'bg-transparent'
     }`}>
-      <div className="container mx-auto px-4 py-3">
+      <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
-              <div className="relative bg-white/80 backdrop-blur-sm p-2 rounded-full border border-purple-100 shadow-sm group-hover:shadow-lg transition-all duration-300">
-                <Shield className="h-6 w-6 text-gradient-to-r from-pink-500 to-purple-600" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500">
-                DisasterLens
-              </span>
-              <span className="text-xs text-purple-500 opacity-80">Early Alert System</span>
-            </div>
+          <Link to="/" className="text-white text-3xl font-bold tracking-wider">
+            DisasterLens
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-8">
             <NavLink to="/" label="Home" />
-            <NavLink to="/alerts" label="Live Alerts" />
-            <NavLink to="/knowledge" label="Knowledge Base" />
-            <NavLink to="/predict" label="Predict" />
-            <Button size="sm" className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-md hover:shadow-lg">Get Alerts</Button>
+            <NavLink to="/knowledge" label="About" />
+            <NavLink to="/predict" label="Predict Disaster" />
           </div>
           
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-foreground bg-white/80 p-2 rounded-full backdrop-blur-sm shadow-sm"
+            className="md:hidden text-white p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
         
         {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden py-3 overflow-hidden backdrop-blur-md bg-white/90 mt-3 rounded-xl shadow-lg"
-            >
-              <div className="flex flex-col space-y-3 p-4">
-                <MobileNavLink to="/" label="Home" />
-                <MobileNavLink to="/alerts" label="Live Alerts" />
-                <MobileNavLink to="/knowledge" label="Knowledge Base" />
-                <MobileNavLink to="/predict" label="Predict" />
-                <Button 
-                  size="sm" 
-                  className="w-full mt-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Get Alerts
-                </Button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div 
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: isMenuOpen ? 'auto' : 0, opacity: isMenuOpen ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden overflow-hidden"
+        >
+          <div className="py-4 flex flex-col space-y-4">
+            <MobileNavLink to="/" label="Home" />
+            <MobileNavLink to="/knowledge" label="About" />
+            <MobileNavLink to="/predict" label="Predict Disaster" />
+          </div>
+        </motion.div>
       </div>
     </nav>
   );
 };
 
-// Desktop navigation link with animations
+// Desktop navigation link
 const NavLink = ({ to, label }: { to: string; label: string }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
@@ -102,17 +75,23 @@ const NavLink = ({ to, label }: { to: string; label: string }) => {
   return (
     <Link 
       to={to}
-      className="relative px-2 py-1 text-sm font-medium transition-colors"
+      className={`text-white font-medium hover:text-white/80 transition-colors ${
+        isActive ? 'text-white' : 'text-white/80'
+      }`}
     >
       {label}
-      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 scale-x-0 transition-transform duration-300 origin-bottom-left hover:scale-x-100">
-        <div className={`absolute inset-0 ${isActive ? 'scale-x-100' : 'scale-x-0'} transition-transform duration-300 bg-gradient-to-r from-purple-500 to-pink-500`}></div>
-      </div>
+      {isActive && (
+        <motion.div
+          layoutId="navbar-underline"
+          className="h-0.5 bg-white mt-1"
+          transition={{ type: "spring", duration: 0.5 }}
+        />
+      )}
     </Link>
   );
 };
 
-// Mobile navigation link with animations
+// Mobile navigation link
 const MobileNavLink = ({ to, label }: { to: string; label: string }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
@@ -120,10 +99,8 @@ const MobileNavLink = ({ to, label }: { to: string; label: string }) => {
   return (
     <Link 
       to={to} 
-      className={`text-sm font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-        isActive 
-          ? 'bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700' 
-          : 'hover:bg-gray-100'
+      className={`px-4 py-2 text-white text-lg ${
+        isActive ? 'font-bold' : 'font-normal'
       }`}
     >
       {label}
